@@ -35,12 +35,18 @@ def predict_premium(data: UserInput):
         'occupation': occupation
     }
 
-    response_data = predict_output(user_input)
+    try:
+        response_data = predict_output(user_input)
 
-    return JSONResponse(status_code=200, content={
+        return JSONResponse(status_code=200, content={
         "predicted_category": response_data["predicted_category"],
         "confidence": response_data["confidence"],
         "class_probabilities": response_data["class_probabilities"],
         "response": response_data
-    })
+        })
+    except Exception as e:
+        return JSONResponse(status_code=500, content={
+            "error": str(e)
+        })
+
 
