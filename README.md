@@ -42,6 +42,25 @@ This service takes user demographic, lifestyle, and financial details, automatic
 
 ---
 
+## 📁 Project Structure
+
+```text
+insurance-premium-prediction-API/
+├── app.py                  # FastAPI application routes (/health, /predict)
+├── config/
+│   └── city_tier.py        # City tier classification data
+├── model/
+│   ├── model.pkl           # Trained Scikit-Learn model artifact
+│   └── predict.py          # Model loading & predict_output inference function
+├── schema/
+│   └── user_input.py       # Pydantic schema & computed fields (BMI, risk, etc.)
+├── requirements.txt        # Dependency specification file
+└── README.md               # Project documentation
+```
+
+---
+
+
 ## 🚀 Getting Started Locally
 
 ### 1. Prerequisites
