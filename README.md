@@ -1,6 +1,12 @@
 # 🏦 Insurance Premium Predictor Service
 
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-mdahtasham112%2Finsurance--premium--api-blue?logo=docker&logoColor=white)](https://hub.docker.com/r/mdahtasham112/insurance-premium-api)
+[![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.136+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+
 An end-to-end Machine Learning API built with **FastAPI**, **Pydantic**, **Pandas**, and **Scikit-Learn**, designed to serve insurance premium predictions in real-time. This project follows production MLOps practices, progressing from local API development to containerization with Docker and cloud deployment on AWS.
+
+🔗 **Docker Hub Image Repository:** [hub.docker.com/r/mdahtasham112/insurance-premium-api](https://hub.docker.com/r/mdahtasham112/insurance-premium-api)
 
 ---
 
@@ -17,10 +23,10 @@ This service takes user demographic, lifestyle, and financial details, automatic
   - Strict payload validation and custom field normalization using **Pydantic**.
   - Dynamic feature engineering with `@computed_field` (BMI, Lifestyle Risk, Age Group, City Tier).
   - Model loading and inference with class confidence probabilities.
-- [ ] **Phase 2: Dockerization & Container Management (Upcoming)**
-  - Create production-ready `Dockerfile` and `.dockerignore`.
-  - Package dependencies, ML model artifact, and application environment into an isolated container.
-  - Local container testing and port binding.
+- [x] **Phase 2: Dockerization & Container Management (Completed)**
+  - Created production-ready `Dockerfile` and `.dockerignore`.
+  - Packaged dependencies, ML model artifact, and application environment into an isolated container.
+  - Successfully built and published container image to [Docker Hub](https://hub.docker.com/r/mdahtasham112/insurance-premium-api).
 - [ ] **Phase 3: Cloud Deployment on AWS (Upcoming)**
   - Push Docker image to **AWS Elastic Container Registry (ECR)**.
   - Deploy application on **AWS App Runner** / **AWS ECS (Fargate)** or **EC2**.
@@ -37,7 +43,7 @@ This service takes user demographic, lifestyle, and financial details, automatic
 - **Data Validation:** Pydantic (v2)
 - **ML & Data Processing:** Scikit-Learn, Pandas, NumPy
 - **Server:** Uvicorn
-- **Containerization:** Docker *(Phase 2)*
+- **Containerization:** Docker (Published on Docker Hub)
 - **Cloud Infrastructure:** AWS *(Phase 3)*
 
 ---
@@ -47,12 +53,15 @@ This service takes user demographic, lifestyle, and financial details, automatic
 ```text
 insurance-premium-prediction-API/
 ├── app.py                  # FastAPI application routes (/health, /predict)
+├── Dockerfile              # Docker container definition
+├── .dockerignore           # Excluded files from Docker build context
 ├── config/
 │   └── city_tier.py        # City tier classification data
 ├── model/
 │   ├── model.pkl           # Trained Scikit-Learn model artifact
 │   └── predict.py          # Model loading & predict_output inference function
 ├── schema/
+│   ├── prediction_response.py # Response validation schema
 │   └── user_input.py       # Pydantic schema & computed fields (BMI, risk, etc.)
 ├── requirements.txt        # Dependency specification file
 └── README.md               # Project documentation
@@ -60,11 +69,34 @@ insurance-premium-prediction-API/
 
 ---
 
+## 🐳 Quickstart with Docker (Recommended)
 
-## 🚀 Getting Started Locally
+You can run the service directly without setting up Python or installing local dependencies by using the pre-built Docker image from Docker Hub.
+
+### 1. Pull the Docker Image
+```bash
+docker pull mdahtasham112/insurance-premium-api
+```
+
+### 2. Run the Container
+```bash
+docker run -d -p 8000:8000 --name insurance-api mdahtasham112/insurance-premium-api
+```
+
+Access the interactive API docs at: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### (Optional) Build Locally
+```bash
+docker build -t mdahtasham112/insurance-premium-api .
+docker run -p 8000:8000 mdahtasham112/insurance-premium-api
+```
+
+---
+
+## 🚀 Getting Started Locally (Without Docker)
 
 ### 1. Prerequisites
-- Python 3.10+
+- Python 3.12+
 - Git
 
 ### 2. Clone the Repository
