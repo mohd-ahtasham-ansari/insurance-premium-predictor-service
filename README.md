@@ -23,10 +23,11 @@ This service takes user demographic, lifestyle, and financial details, automatic
   - Strict payload validation and custom field normalization using **Pydantic**.
   - Dynamic feature engineering with `@computed_field` (BMI, Lifestyle Risk, Age Group, City Tier).
   - Model loading and inference with class confidence probabilities.
-- [x] **Phase 2: Dockerization & Container Management (Completed)**
+- [x] **Phase 2: Dockerization & Container Management (Completed & Verified ✅)**
   - Created production-ready `Dockerfile` and `.dockerignore`.
   - Packaged dependencies, ML model artifact, and application environment into an isolated container.
-  - Successfully built and published container image to [Docker Hub](https://hub.docker.com/r/mdahtasham112/insurance-premium-api).
+  - Successfully built, tagged, and published container image to [Docker Hub](https://hub.docker.com/r/mdahtasham112/insurance-premium-api).
+  - **Pull & Run Verification:** Pulled image directly from Docker Hub, executed the container, and verified identical inference results with 100% parity against local development.
 - [ ] **Phase 3: Cloud Deployment on AWS (Upcoming)**
   - Push Docker image to **AWS Elastic Container Registry (ECR)**.
   - Deploy application on **AWS App Runner** / **AWS ECS (Fargate)** or **EC2**.
@@ -83,12 +84,31 @@ docker pull mdahtasham112/insurance-premium-api
 docker run -d -p 8000:8000 --name insurance-api mdahtasham112/insurance-premium-api
 ```
 
-Access the interactive API docs at: [http://localhost:8000/docs](http://localhost:8000/docs)
+### 3. Test & Verify the Running Container
+```bash
+# Health check test
+curl http://localhost:8000/health
 
-### (Optional) Build Locally
+# Prediction endpoint test
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "age": 30,
+    "weight": 70.0,
+    "height": 1.75,
+    "income_lpa": 12.5,
+    "smoker": false,
+    "city": "Mumbai",
+    "occupation": "private_job"
+  }'
+```
+
+Interactive Swagger UI is also accessible at: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+### (Optional) Build Locally from Source
 ```bash
 docker build -t mdahtasham112/insurance-premium-api .
-docker run -p 8000:8000 mdahtasham112/insurance-premium-api
+docker run -d -p 8000:8000 --name insurance-api mdahtasham112/insurance-premium-api
 ```
 
 ---
