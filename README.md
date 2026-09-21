@@ -1,12 +1,14 @@
 # 🏦 Insurance Premium Predictor Service
 
+[![Live AWS Deployment](https://img.shields.io/badge/AWS-Live%20API-FF9900?logo=amazon-aws&logoColor=white)](http://13.54.184.186:8000/docs)
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-mdahtasham112%2Finsurance--premium--api-blue?logo=docker&logoColor=white)](https://hub.docker.com/r/mdahtasham112/insurance-premium-api)
 [![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.136+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
-An end-to-end Machine Learning API built with **FastAPI**, **Pydantic**, **Pandas**, and **Scikit-Learn**, designed to serve insurance premium predictions in real-time. This project follows production MLOps practices, progressing from local API development to containerization with Docker and cloud deployment on AWS.
+An end-to-end Machine Learning API built with **FastAPI**, **Pydantic**, **Pandas**, and **Scikit-Learn**, designed to serve insurance premium predictions in real-time. This project follows production MLOps practices, progressing from local API development to containerization with Docker and live cloud deployment on AWS.
 
-🔗 **Docker Hub Image Repository:** [hub.docker.com/r/mdahtasham112/insurance-premium-api](https://hub.docker.com/r/mdahtasham112/insurance-premium-api)
+- 🌐 **Live AWS API Docs:** [http://13.54.184.186:8000/docs](http://13.54.184.186:8000/docs)
+- 🔗 **Docker Hub Image Repository:** [hub.docker.com/r/mdahtasham112/insurance-premium-api](https://hub.docker.com/r/mdahtasham112/insurance-premium-api)
 
 ---
 
@@ -28,13 +30,45 @@ This service takes user demographic, lifestyle, and financial details, automatic
   - Packaged dependencies, ML model artifact, and application environment into an isolated container.
   - Successfully built, tagged, and published container image to [Docker Hub](https://hub.docker.com/r/mdahtasham112/insurance-premium-api).
   - **Pull & Run Verification:** Pulled image directly from Docker Hub, executed the container, and verified identical inference results with 100% parity against local development.
-- [ ] **Phase 3: Cloud Deployment on AWS (Upcoming)**
-  - Push Docker image to **AWS Elastic Container Registry (ECR)**.
-  - Deploy application on **AWS App Runner** / **AWS ECS (Fargate)** or **EC2**.
-  - Expose secure HTTPS endpoints for production consumption.
+- [x] **Phase 3: Cloud Deployment on AWS (Completed & Live 🚀)**
+  - Provisioned and configured an **AWS EC2** instance.
+  - Pulled and ran the Docker image in production mode on AWS.
+  - Configured AWS Security Group rules to expose public port `8000`.
+  - Live interactive Swagger UI and REST endpoints are active and accessible: [http://13.54.184.186:8000/docs](http://13.54.184.186:8000/docs).
 - [ ] **Phase 4: CI/CD & MLOps Automation (Upcoming)**
   - Set up **GitHub Actions** workflow for automated testing.
-  - Auto-build and push Docker images to AWS on push to `main`.
+  - Auto-build and push Docker images on push to `main`.
+  - Automated continuous deployment to AWS EC2.
+
+---
+
+## 🌐 Live Cloud Deployment (AWS)
+
+The API is actively deployed on AWS and can be accessed globally:
+
+- **Swagger UI (Interactive API Docs):** [http://13.54.184.186:8000/docs](http://13.54.184.186:8000/docs)
+- **ReDoc:** [http://13.54.184.186:8000/redoc](http://13.54.184.186:8000/redoc)
+- **Health Check:** `GET http://13.54.184.186:8000/health`
+- **Predict Endpoint:** `POST http://13.54.184.186:8000/predict`
+
+### Quick Test on Live AWS API:
+```bash
+# Test Health Endpoint on AWS
+curl http://13.54.184.186:8000/health
+
+# Test Prediction on AWS
+curl -X POST http://13.54.184.186:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "age": 28,
+    "weight": 72.0,
+    "height": 1.78,
+    "income_lpa": 14.0,
+    "smoker": false,
+    "city": "Mumbai",
+    "occupation": "private_job"
+  }'
+```
 
 ---
 
@@ -45,7 +79,7 @@ This service takes user demographic, lifestyle, and financial details, automatic
 - **ML & Data Processing:** Scikit-Learn, Pandas, NumPy
 - **Server:** Uvicorn
 - **Containerization:** Docker (Published on Docker Hub)
-- **Cloud Infrastructure:** AWS *(Phase 3)*
+- **Cloud Infrastructure:** AWS (EC2)
 
 ---
 
@@ -70,9 +104,9 @@ insurance-premium-prediction-API/
 
 ---
 
-## 🐳 Quickstart with Docker (Recommended)
+## 🐳 Quickstart with Docker (Local / Self-Hosted)
 
-You can run the service directly without setting up Python or installing local dependencies by using the pre-built Docker image from Docker Hub.
+You can run the service locally without setting up Python or installing local dependencies by pulling the pre-built image from Docker Hub.
 
 ### 1. Pull the Docker Image
 ```bash
@@ -103,7 +137,7 @@ curl -X POST http://localhost:8000/predict \
   }'
 ```
 
-Interactive Swagger UI is also accessible at: [http://localhost:8000/docs](http://localhost:8000/docs)
+Interactive Swagger UI is accessible at: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ### (Optional) Build Locally from Source
 ```bash
@@ -169,7 +203,7 @@ The server will start at `http://127.0.0.1:8000`.
 
 ### 3. Prediction Endpoint
 - **URL:** `POST /predict`
-- **Interactive Documentation:** Available at `http://127.0.0.1:8000/docs` (Swagger UI).
+- **Interactive Documentation:** Available at `http://127.0.0.1:8000/docs` or `http://13.54.184.186:8000/docs` (Swagger UI).
 - **Sample Request Payload:**
 ```json
 {
